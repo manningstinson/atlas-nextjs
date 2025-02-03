@@ -9,8 +9,8 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const topic = await fetchTopic(id);
-  const questions = await fetchQuestions(id);
+  const topic = await fetchTopic((await params).id);
+  const questions = await fetchQuestions((await params).id);
 
   if (!topic) {
     return <div>Topic not found</div>;
