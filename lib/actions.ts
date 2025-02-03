@@ -33,7 +33,6 @@ export async function addQuestion(question: FormData) {
   }
 }
 
-
 export async function addVote(data: FormData) {
   try {
     incrementVotes(data.get("id") as string);
