@@ -8,7 +8,6 @@ export default async function Page({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await params;
   const topic = await fetchTopic((await params).id);
   const questions = await fetchQuestions((await params).id);
 
