@@ -21,12 +21,20 @@ export async function addTopic(data: FormData) {
 
 export async function addQuestion(question: FormData) {
   try {
+    const title = question.get("title") as string;
+    const topic_id = question.get("topic_id") as string;
+
+    if (!title || !topic_id) {
+      throw new Error("Missing title or topic_id");
+    }
+
     await insertQuestion({
-      title: question.get("title") as string,
-      topic_id: question.get("topic_id") as string,
+      title,
+      topic_id,
       votes: 0,
     });
-    revalidatePath(`/ui/topics/${question.get("topic_id")}`);
+
+    revalidatePath(`/ui/topics/${topic_id}`);
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to add question.");
