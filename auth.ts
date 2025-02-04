@@ -1,11 +1,18 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import { Pool } from 'pg';
 
-// Simple mock user fetch function
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL
+});
+
 const fetchUser = async (email: string) => {
-  // Replace with your actual user fetching logic
-  return { id: '1', email, password: "hashed_password" };
+  const result = await pool.query(
+    'SELECT id, email, password FROM users WHERE email = $1',
+    [email]
+  );
+  return result.rows[0];
 };
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -39,7 +46,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   callbacks: {
     authorized: async ({ auth }) => {
-      // Logged in users are authenticated, otherwise redirect to login page
       return !!auth;
     },
   },
