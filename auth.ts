@@ -1,18 +1,15 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { Pool } from 'pg';
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL
-});
+import { sql } from '@vercel/postgres';
 
 const fetchUser = async (email: string) => {
-  const result = await pool.query(
-    'SELECT id, email, password FROM users WHERE email = $1',
-    [email]
-  );
-  return result.rows[0];
+  const { rows } = await sql`
+    SELECT id, email, password 
+    FROM users 
+    WHERE email = ${email}
+  `;
+  return rows[0];
 };
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
