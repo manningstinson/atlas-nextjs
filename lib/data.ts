@@ -1,5 +1,5 @@
 import { sql } from "@vercel/postgres";
-import { Question, Topic, User } from "./definitions";
+import { Answer, Question, Topic, User } from "./definitions";
 
 export async function fetchUser(email: string): Promise<User | undefined> {
   try {
@@ -75,5 +75,42 @@ export async function incrementVotes(id: string) {
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to increment votes.");
+  }
+}
+
+
+export async function fetchAnswers(questionId: string) {
+  try {
+    const data = await sql<Answer>`
+      SELECT * FROM answers 
+      WHERE question_id = ${questionId}
+      ORDER BY is_accepted DESC, created_at DESC
+    `;
+    return data.rows;
+  } catch (error) {
+    throw new Error("Failed to fetch answers.");
+  }
+}
+
+export async function insertAnswer(answer: Pick<Answer, "text" | "question_id">) {
+  try {
+    await sql`
+      INSERT INTO answers (text, question_id) 
+      VALUES (${answer.text}, ${answer.question_id})
+    `;
+  } catch (error) {
+    throw new Error("Failed to add answer.");
+  }
+}
+
+export async function markAnswerAsAccepted(answerId: string) {
+  try {
+    await sql`
+      UPDATE answers 
+      SET is_accepted = TRUE 
+      WHERE id = ${answerId}
+    `;
+  } catch (error) {
+    throw new Error("Failed to mark answer as accepted.");
   }
 }
