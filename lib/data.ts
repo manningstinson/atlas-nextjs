@@ -86,9 +86,11 @@ export async function fetchAnswers(questionId: string) {
       WHERE question_id = ${questionId}
       ORDER BY is_accepted DESC, created_at DESC
     `;
+    console.log('Fetched answers:', data.rows);
     return data.rows;
   } catch (error) {
-    throw new Error("Failed to fetch answers.");
+    console.error('Error fetching answers:', error);
+    throw new Error(`Failed to fetch answers: ${(error as any).message}`);
   }
 }
 

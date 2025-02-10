@@ -1,5 +1,4 @@
-// app/ui/questions/[id]/page.tsx
-import { fetchAnswers } from "@/lib/data";
+import { fetchAnswers, fetchQuestions } from "@/lib/data";
 import { Answer } from "@/components/Answer";
 import { addAnswer } from "@/lib/actions";
 
@@ -8,10 +7,18 @@ export default async function QuestionPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const questions = await fetchQuestions((await params).id);
+  const question = questions[0];
   const answers = await fetchAnswers((await params).id);
+
+  if (!question) {
+    return <div>Question not found</div>;
+  }
 
   return (
     <div className="space-y-6">
+      <h1 className="text-2xl font-bold">{question.title}</h1>
+      
       <form action={addAnswer} className="space-y-4">
         <input type="hidden" name="question_id" value={(await params).id} />
         <textarea
