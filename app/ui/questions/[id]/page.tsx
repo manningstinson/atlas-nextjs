@@ -1,3 +1,4 @@
+// app/ui/questions/[id]/page.tsx
 import { fetchAnswers } from "@/lib/data";
 import { Answer } from "@/components/Answer";
 import { addAnswer } from "@/lib/actions";
@@ -5,14 +6,14 @@ import { addAnswer } from "@/lib/actions";
 export default async function QuestionPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const answers = await fetchAnswers(params.id);
+  const answers = await fetchAnswers((await params).id);
 
   return (
     <div className="space-y-6">
       <form action={addAnswer} className="space-y-4">
-        <input type="hidden" name="question_id" value={params.id} />
+        <input type="hidden" name="question_id" value={(await params).id} />
         <textarea
           name="text"
           className="w-full rounded-md border p-2 min-h-32"
