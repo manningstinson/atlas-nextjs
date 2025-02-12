@@ -21,14 +21,12 @@ export function Answer({ id, text, isAccepted, questionId }: AnswerProps) {
             className="text-xs text-gray-600 hover:text-gray-800 flex items-center gap-1"
           >
             <CheckCircleIcon className="w-4 h-4" />
-            Mark as Correct
           </button>
         </form>
       )}
       {isAccepted && (
         <div className="ml-2 text-green-500 text-xs flex items-center gap-1">
           <CheckCircleIcon className="w-4 h-4" />
-          Correct Answer
         </div>
       )}
     </div>
