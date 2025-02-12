@@ -33,7 +33,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (passwordsMatch) return {
           id: user.id,
           email: user.email,
-          // Add a placeholder image for credential users
+          image: "/assets/placeholder.svg"
         };
         return null;
       },
@@ -51,7 +51,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           id: profile.id.toString(),
           name: profile.name || profile.login,
           email: profile.email,
-          image: profile.avatar_url // GitHub avatar will be used automatically
+          image: profile.avatar_url
         }
       }
     }),
@@ -61,7 +61,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (token.sub) {
         session.user.id = token.sub;
       }
-      // Ensure the image is passed to the session
       if (token.picture) {
         session.user.image = token.picture;
       }
@@ -70,7 +69,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt({ token, user, account }) {
       if (user) {
         token.sub = user.id;
-        // Preserve the image URL in the token
         token.picture = user.image;
       }
       return token;
