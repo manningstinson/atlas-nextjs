@@ -10,7 +10,7 @@ export function AnswerForm({ questionId }: AnswerFormProps) {
       <input type="hidden" name="question_id" value={questionId} />
       <textarea
         name="text"
-        className="w-full rounded-md border p-2 min-h-32"
+        className="w-full rounded-md border p-2 min-h-15"
         placeholder="Write your answer..."
         required
       />
