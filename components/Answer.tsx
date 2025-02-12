@@ -1,5 +1,6 @@
 import { acceptAnswer } from "@/lib/actions";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
+import { CheckCircle2, XCircle } from "lucide-react";
 
 type AnswerProps = {
   id: string;
@@ -11,25 +12,21 @@ type AnswerProps = {
 export function Answer({ id, text, isAccepted, questionId }: AnswerProps) {
   return (
     <div className="flex items-center border-l border-r border-t border-atlas-white-300 p-6 first:rounded-t-md last:rounded-b-md last:border-b hover:bg-gray-50">
-      <div className="mr-2 rounded-xl bg-secondary px-2 text-sm text-white">
-        {/* You can add a vote count here if needed */}
-      </div>
-      <p className="text w-full text-left font-semibold">{text}</p>
-      {!isAccepted && (
-        <form action={acceptAnswer} className="ml-2">
+      <p className="w-full text-left text-base text-[#1a1a1a]">{text}</p>
+      {!isAccepted ? (
+        <form action={acceptAnswer}>
           <input type="hidden" name="answer_id" value={id} />
           <input type="hidden" name="question_id" value={questionId} />
           <button
             type="submit"
-            className="text-xs text-gray-600 hover:text-gray-800 flex items-center gap-1"
+            className="flex items-center justify-center"
           >
-            <CheckCircleIcon className="w-4 h-4" />
+            <XCircle className="h-6 w-6 text-gray-400" />
           </button>
         </form>
-      )}
-      {isAccepted && (
-        <div className="ml-2 text-green-500 text-xs flex items-center gap-1">
-          <CheckCircleIcon className="w-4 h-4" />
+      ) : (
+        <div className="flex items-center justify-center">
+          <CheckCircle2 className="h-6 w-6 text-emerald-400" />
         </div>
       )}
     </div>
