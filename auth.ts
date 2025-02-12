@@ -34,7 +34,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           id: user.id,
           email: user.email,
           // Add a placeholder image for credential users
-          image: "/placeholder-avatar.png" // You can replace this with your placeholder image path
+          image: "../assets/placeholder.svg" // You can replace this with your placeholder image path
         };
         return null;
       },
