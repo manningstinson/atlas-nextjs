@@ -10,13 +10,13 @@ export function AnswerForm({ questionId }: AnswerFormProps) {
       <input type="hidden" name="question_id" value={questionId} />
       <textarea
         name="text"
-        className="w-full rounded-md border border-gray-300 p-2 min-h-[100px] text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+        className="w-full border border-gray-300 rounded-md p-2 text-sm min-h-[100px] focus:outline-none focus:ring-1 focus:ring-blue-500"
         placeholder="Write your answer..."
         required
       />
       <button
         type="submit"
-        className="w-full px-4 py-2 bg-secondary text-white rounded-md text-sm hover:bg-opacity-90"
+        className="w-full bg-secondary text-white rounded-md py-2 text-sm hover:opacity-90"
       >
         Submit Answer
       </button>

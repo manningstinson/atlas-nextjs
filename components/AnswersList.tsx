@@ -1,15 +1,15 @@
 import { Answer } from './Answer';
 
 export function AnswersList({
- answers,
- questionId
+  answers,
+  questionId
 }: {
- answers: Array<{
-   id: string;
-   answer: string;  // Changed from 'text' to 'answer'
-   is_accepted: boolean;
- }>,
- questionId: string
+  answers: Array<{
+    id: string;
+    answer: string;
+    is_accepted: boolean;
+  }>,
+  questionId: string
 }) {
   // Sort answers with accepted answer first
   const sortedAnswers = [...answers].sort((a, b) =>
@@ -22,7 +22,7 @@ export function AnswersList({
         <Answer
           key={answer.id}
           id={answer.id}
-          text={answer.answer}  // Pass 'answer' as 'text'
+          text={answer.answer}
           isAccepted={answer.is_accepted}
           questionId={questionId}
         />
