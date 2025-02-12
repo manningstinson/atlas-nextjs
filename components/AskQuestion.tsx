@@ -7,7 +7,7 @@ export function AskQuestion({ topic }: { topic: string }) {
       <input 
         type="text" 
         name="title" 
-        className="w-full border border-gray-300 rounded-md p-4 text-sm min-h-[50px] pr-28 focus:outline-none focus:ring-1 focus:ring-blue-500" 
+        className="w-full border border-gray-300 rounded-md p-4 text-sm min-h-[50px] pr-28 my-6 focus:outline-none focus:ring-1 focus:ring-blue-500" 
         placeholder="Ask a question..."
         required
       />
