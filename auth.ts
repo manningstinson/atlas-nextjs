@@ -23,6 +23,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     GitHub({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
+      authorization: {
+        params: {
+          scope: 'read:user user:email'
+        }
+      },
+      profile(profile) {
+        return {
+          id: profile.id.toString(),
+          name: profile.name || profile.login,
+          email: profile.email,
+          image: profile.avatar_url
+        }
+      }
     }),
     Credentials({
       credentials: {
@@ -47,14 +60,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       // Add user ID to the token when a user is created or logged in
       if (user) {
         token.sub = user.id;
       }
       return token;
     },
-    authorized: async ({ auth }) => {
+    async authorized({ auth }) {
       return !!auth;
     },
   },
