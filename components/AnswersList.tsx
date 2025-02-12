@@ -1,14 +1,16 @@
-import { Answer } from "@/components/Answer";
+import { Answer } from './Answer';
 
-type AnswersListProps = {
+export function AnswersList({ 
+  answers, 
+  questionId 
+}: { 
   answers: Array<{
     id: string;
     text: string;
     is_accepted: boolean;
-  }>;
-};
-
-export function AnswersList({ answers }: AnswersListProps) {
+  }>, 
+  questionId: string 
+}) {
   // Sort answers with accepted answer first
   const sortedAnswers = [...answers].sort((a, b) => 
     b.is_accepted ? 1 : a.is_accepted ? -1 : 0
@@ -22,6 +24,7 @@ export function AnswersList({ answers }: AnswersListProps) {
           id={answer.id}
           text={answer.text}
           isAccepted={answer.is_accepted}
+          questionId={questionId}
         />
       ))}
     </div>

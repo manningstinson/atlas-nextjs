@@ -45,21 +45,39 @@ export async function addVote(data: FormData) {
 
 export async function addAnswer(formData: FormData) {
   try {
-    await insertAnswer({
-      text: formData.get("text") as string,
-      question_id: formData.get("question_id") as string,
+    const text = formData.get("text") as string;
+    const questionId = formData.get("question_id") as string;
+
+    if (!text || !questionId) {
+      throw new Error("Missing required fields");
+    }
+
+    await insertAnswer({ 
+      text, 
+      question_id: questionId 
     });
-    revalidatePath("/ui/questions/[id]", "page");
+
+    revalidatePath(`/ui/questions/${questionId}`);
   } catch (error) {
+    console.error("Error adding answer:", error);
     throw new Error("Failed to add answer.");
   }
 }
 
 export async function acceptAnswer(formData: FormData) {
   try {
-    await markAnswerAsAccepted(formData.get("answer_id") as string);
-    revalidatePath("/ui/questions/[id]", "page");
+    const answerId = formData.get("answer_id") as string;
+    const questionId = formData.get("question_id") as string;
+
+    if (!answerId || !questionId) {
+      throw new Error("Missing required fields");
+    }
+
+    await markAnswerAsAccepted(answerId);
+
+    revalidatePath(`/ui/questions/${questionId}`);
   } catch (error) {
-    throw new Error("Failed to accept answer.");
+    console.error("Error accepting answer:", error);
+    throw new Error("Failed to mark answer as accepted.");
   }
 }

@@ -31,7 +31,7 @@ export default async function QuestionPage({
       <div className="space-y-6">
         <QuestionHeader title={question.title} />
         <AnswerForm questionId={question.id} />
-        <AnswersList answers={answers} />
+        <AnswersList answers={answers} questionId={question.id} />
       </div>
     );
   } catch (error) {
