@@ -30,7 +30,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const user = await fetchUser(email);
         if (!user) return null;
         const passwordsMatch = await bcrypt.compare(password, user.password);
-        if (passwordsMatch) return user;
+        if (passwordsMatch) return {
+          id: user.id,
+          email: user.email,
+          // Add a placeholder image for credential users
+          image: "/placeholder-avatar.png" // You can replace this with your placeholder image path
+        };
         return null;
       },
     }),
@@ -47,23 +52,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           id: profile.id.toString(),
           name: profile.name || profile.login,
           email: profile.email,
-          image: profile.avatar_url
+          image: profile.avatar_url // GitHub avatar will be used automatically
         }
       }
     }),
   ],
   callbacks: {
     async session({ session, token }) {
-      // Ensure the session includes the user's ID
       if (token.sub) {
         session.user.id = token.sub;
+      }
+      // Ensure the image is passed to the session
+      if (token.picture) {
+        session.user.image = token.picture;
       }
       return session;
     },
     async jwt({ token, user, account }) {
-      // Add user ID to the token when a user is created or logged in
       if (user) {
         token.sub = user.id;
+        // Preserve the image URL in the token
+        token.picture = user.image;
       }
       return token;
     },
