@@ -6,18 +6,27 @@ export async function LoggedInUser() {
   
   if (!session?.user) return null;
 
-  console.log("LoggedInUser - Session:", session);
-  console.log("LoggedInUser - Image path:", session.user.image);
-
   return (
     <div className="flex items-center space-x-3 p-3">
-      <Image
-        src={session.user.image || "./assets/placeholder.svg"}
-        alt={session.user.name || "User"}
-        width={40}
-        height={40}
-        className="rounded-full"
-      />
+      {session.user.image ? (
+        <Image
+          src={session.user.image}
+          alt={session.user.name || "User"}
+          width={40}
+          height={40}
+          className="rounded-full"
+          priority
+        />
+      ) : (
+        <Image
+          src="/placeholder.svg"
+          alt={session.user.name || "User"}
+          width={40}
+          height={40}
+          className="rounded-full"
+          priority
+        />
+      )}
       <div>
         <p className="text-sm font-medium">{session.user.name}</p>
         <p className="text-xs text-gray-500">{session.user.email}</p>

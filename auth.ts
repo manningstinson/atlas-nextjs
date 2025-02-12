@@ -36,7 +36,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           id: user.id,
           email: user.email,
           name: email.split('@')[0],
-          image: "./assets/placeholder.svg"
+          image: process.env.NEXTAUTH_URL + "/placeholder.svg"
         };
         return null;
       },
@@ -62,30 +62,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, user, account }) {
-      console.log("JWT STARTED - Full token:", token);
-      console.log("JWT STARTED - Full user object:", user);
-      console.log("JWT STARTED - Account type:", account?.provider);
-      
+    async jwt({ token, user }) {
       if (user) {
         token.sub = user.id;
         token.picture = user.image;
         token.name = user.name;
-        console.log("JWT AFTER UPDATE - Token picture:", token.picture);
       }
-      
-      console.log("JWT FINAL - Full token being returned:", token);
+      console.log("JWT token after processing:", token);
       return token;
     },
     async session({ session, token }) {
-      console.log("Session email:", session.user?.email);
-      console.log("Session image:", session.user?.image);
-      if (token.sub) {
-        session.user.id = token.sub;
-      }
-      if (token.picture) {
-        session.user.image = token.picture;
-      }
+      session.user.id = token.sub as string;
+      session.user.image = token.picture as string;
+      session.user.name = token.name as string;
+      console.log("Final session data:", session);
       return session;
     },
     async authorized({ auth }) {
