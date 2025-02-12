@@ -10,6 +10,7 @@ const fetchUser = async (email: string) => {
     FROM users
     WHERE email = ${email}
   `;
+  console.log("Email found in database:", rows[0]?.email);
   return rows[0];
 };
 
@@ -28,6 +29,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       authorize: async (credentials: Partial<Record<"email" | "password", unknown>>) => {
         const { email, password } = credentials as { email: string; password: string };
         const user = await fetchUser(email);
+        console.log("Credentials email:", email);
         if (!user) return null;
         const passwordsMatch = await bcrypt.compare(password, user.password);
         if (passwordsMatch) return {
@@ -47,6 +49,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       },
       profile(profile) {
+        console.log("GitHub email:", profile.email);
+        console.log("GitHub avatar:", profile.avatar_url);
         return {
           id: profile.id.toString(),
           name: profile.name || profile.login,
@@ -58,6 +62,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   callbacks: {
     async session({ session, token }) {
+      console.log("Session email:", session.user?.email);
+      console.log("Session image:", session.user?.image);
       if (token.sub) {
         session.user.id = token.sub;
       }
@@ -68,6 +74,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
     async jwt({ token, user, account }) {
+      console.log("JWT email:", user?.email);
+      console.log("JWT image:", user?.image);
       if (user) {
         token.sub = user.id;
         // Preserve the image URL in the token
