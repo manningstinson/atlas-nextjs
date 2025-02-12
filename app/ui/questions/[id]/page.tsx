@@ -8,18 +8,26 @@ export default async function QuestionPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const questions = await fetchQuestions((await params).id);
-  const question = questions[0];
-  const answers = await fetchAnswers((await params).id);
-
-  if (!question) {
+  const paramId = await params;
+  
+  // Fetch questions using the topic_id
+  const questions = await fetchQuestions(paramId.id);
+  
+  // If no questions found, return not found
+  if (questions.length === 0) {
     return <div>Question not found</div>;
   }
+
+  // Select the first question (assuming you want the first question for this topic)
+  const question = questions[0];
+  
+  // Fetch answers for this specific question
+  const answers = await fetchAnswers(question.id);
 
   return (
     <div className="space-y-6">
       <QuestionHeader title={question.title} />
-      <AnswerForm questionId={(await params).id} />
+      <AnswerForm questionId={question.id} />
       <AnswersList answers={answers} />
     </div>
   );
