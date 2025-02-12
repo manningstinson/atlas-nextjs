@@ -70,7 +70,6 @@ export async function insertTopic(topic: Pick<Topic, "title">) {
   try {
     const data = 
       await sql<Topic>`INSERT INTO topics (title) VALUES (${topic.title}) RETURNING id;`;
-    console.log(data.rows[0]);
     return data.rows[0];
   } catch (error) {
     console.error("Database Error:", error);
@@ -103,28 +102,15 @@ export async function fetchAnswers(questionId: string) {
   }
 }
 
-export async function insertAnswer(answer: Pick<Answer, "text" | "question_id">) {
+export async function insertAnswer(answer: Pick<Answer, "answer" | "question_id">) {
   try {
-    console.log("Attempting to insert answer:", answer);
-    const result = await sql`
-      INSERT INTO answers (text, question_id)
-      VALUES (${answer.text}, ${answer.question_id})
+    await sql`
+      INSERT INTO answers (answer, question_id)
+      VALUES (${answer.answer}, ${answer.question_id})
     `;
-    console.log("Answer insertion result:", result);
-    return result;
   } catch (error) {
-    console.error("Detailed error adding answer:", error);
-    // If it's a PostgreSQL error, log more details
-    if (error instanceof Error) {
-      console.error("Error name:", error.name);
-      console.error("Error message:", error.message);
-      
-      // If it's a Vercel Postgres error, it might have additional properties
-      const pgError = error as any;
-      console.error("PG Error Code:", pgError.code);
-      console.error("PG Error Detail:", pgError.detail);
-    }
-    throw new Error(`Failed to add answer: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    console.error("Error adding answer:", error);
+    throw new Error("Failed to add answer.");
   }
 }
 

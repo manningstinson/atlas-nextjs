@@ -1,4 +1,5 @@
 import { fetchQuestion, fetchAnswers } from "@/lib/data";
+import { Answer } from "@/lib/definitions";
 import { QuestionHeader } from "@/components/QuestionHeader";
 import { AnswerForm } from "@/components/AnswerForm";
 import { AnswersList } from "@/components/AnswersList";
@@ -23,7 +24,7 @@ export default async function QuestionPage({
     }
 
     // Fetch answers for this specific question
-    const answers = await fetchAnswers(question.id);
+    const answers: Answer[] = await fetchAnswers(question.id);
     console.log("Fetched answers:", answers);
     console.log("Number of answers:", answers.length);
 

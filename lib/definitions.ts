@@ -20,11 +20,10 @@ export type Question = {
   votes: number;
 };
 
-export type Answer = {
+export interface Answer {
   id: string;
-  text: string;
+  answer: string;
   question_id: string;
   is_accepted: boolean;
   created_at: Date;
-};
-
+}

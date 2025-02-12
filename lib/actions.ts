@@ -45,25 +45,22 @@ export async function addVote(data: FormData) {
 
 export async function addAnswer(formData: FormData) {
   try {
-    const text = formData.get("text") as string;
+    const answer = formData.get("text") as string;
     const questionId = formData.get("question_id") as string;
 
-    console.log("Received form data:", { text, questionId });
-
-    if (!text || !questionId) {
-      console.error("Missing required fields", { text, questionId });
+    if (!answer || !questionId) {
       throw new Error("Missing required fields");
     }
 
     await insertAnswer({ 
-      text, 
+      answer, 
       question_id: questionId 
     });
 
     revalidatePath(`/ui/questions/${questionId}`);
   } catch (error) {
-    console.error("Comprehensive error adding answer:", error);
-    throw new Error(`Failed to add answer: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    console.error("Error adding answer:", error);
+    throw new Error("Failed to add answer.");
   }
 }
 
