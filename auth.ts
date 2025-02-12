@@ -26,20 +26,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
     Credentials({
       credentials: {
-        email: {
-          label: "Email",
-        },
-        password: {
-          label: "Password",
-          type: "password",
-        },
+        email: { label: "Email" },
+        password: { label: "Password", type: "password" },
       },
-      //@ts-ignore
-      authorize: async (credentials: { email: string; password: string }) => {
-        const { email, password } = credentials;
+      authorize: async (credentials: Partial<Record<"email" | "password", unknown>>) => {
+        const { email, password } = credentials as { email: string; password: string };
         const user = await fetchUser(email);
         if (!user) return null;
-        //@ts-ignore
         const passwordsMatch = await bcrypt.compare(password, user.password);
         if (passwordsMatch) return user;
         return null;
@@ -47,12 +40,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
+    async session({ session, token }) {
+      // Ensure the session includes the user's ID
+      if (token.sub) {
+        session.user.id = token.sub;
+      }
+      return session;
+    },
+    async jwt({ token, user }) {
+      // Add user ID to the token when a user is created or logged in
+      if (user) {
+        token.sub = user.id;
+      }
+      return token;
+    },
     authorized: async ({ auth }) => {
       return !!auth;
-    },
-    async session({ session, user }) {
-      session.user.id = user.id;
-      return session;
     },
   },
 });
