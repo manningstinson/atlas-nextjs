@@ -10,10 +10,10 @@ type AnswerProps = {
 
 export function Answer({ id, text, isAccepted, questionId }: AnswerProps) {
   return (
-    <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
-      <p className="text-gray-800 text-sm">{text}</p>
+    <div className="flex items-center border-l border-r border-t border-atlas-white-300 p-6 first:rounded-t-md last:rounded-b-md last:border-b hover:bg-gray-50">
+      <p className="w-full text-left text-sm">{text}</p>
       {!isAccepted && (
-        <form action={acceptAnswer} className="mt-2">
+        <form action={acceptAnswer} className="ml-2">
           <input type="hidden" name="answer_id" value={id} />
           <input type="hidden" name="question_id" value={questionId} />
           <button
@@ -26,7 +26,7 @@ export function Answer({ id, text, isAccepted, questionId }: AnswerProps) {
         </form>
       )}
       {isAccepted && (
-        <div className="text-green-500 text-xs mt-2 flex items-center gap-1">
+        <div className="ml-2 text-green-500 text-xs flex items-center gap-1">
           <CheckCircleIcon className="w-4 h-4" />
           Correct Answer
         </div>
