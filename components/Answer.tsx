@@ -1,5 +1,4 @@
 import { acceptAnswer } from "@/lib/actions";
-import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { CheckCircle2, XCircle } from "lucide-react";
 
 type AnswerProps = {
@@ -21,12 +20,12 @@ export function Answer({ id, text, isAccepted, questionId }: AnswerProps) {
             type="submit"
             className="flex items-center justify-center"
           >
-            <XCircle className="h-6 w-6 text-gray-400" />
+            <XCircle className="h-5 w-5 text-gray-400" />
           </button>
         </form>
       ) : (
         <div className="flex items-center justify-center">
-          <CheckCircle2 className="h-6 w-6 text-emerald-400" />
+          <CheckCircle2 className="h-5 w-5 text-[#00BA34]" />
         </div>
       )}
     </div>
