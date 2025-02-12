@@ -33,7 +33,7 @@ export async function fetchTopic(id: string) {
 
 export async function fetchQuestions(id: string) {
   try {
-    const data =
+    const data = 
       await sql<Question>`SELECT * FROM questions WHERE topic_id = ${id} ORDER BY votes DESC`;
     return data.rows;
   } catch (error) {
@@ -42,11 +42,22 @@ export async function fetchQuestions(id: string) {
   }
 }
 
+export async function fetchQuestion(id: string) {
+  try {
+    const data = 
+      await sql<Question>`SELECT * FROM questions WHERE id = ${id}`;
+    return data.rows[0] || null;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch question.");
+  }
+}
+
 export async function insertQuestion(
   question: Pick<Question, "title" | "topic_id" | "votes">
 ) {
   try {
-    const data =
+    const data = 
       await sql<Question>`INSERT INTO questions (title, topic_id, votes) VALUES (${question.title}, ${question.topic_id}, ${question.votes})`;
     return data.rows;
   } catch (error) {
@@ -57,7 +68,7 @@ export async function insertQuestion(
 
 export async function insertTopic(topic: Pick<Topic, "title">) {
   try {
-    const data =
+    const data = 
       await sql<Topic>`INSERT INTO topics (title) VALUES (${topic.title}) RETURNING id;`;
     console.log(data.rows[0]);
     return data.rows[0];
@@ -69,7 +80,7 @@ export async function insertTopic(topic: Pick<Topic, "title">) {
 
 export async function incrementVotes(id: string) {
   try {
-    const data =
+    const data = 
       await sql<Question>`UPDATE questions SET votes = votes + 1 WHERE id = ${id}`;
     return data.rows;
   } catch (error) {
@@ -78,11 +89,10 @@ export async function incrementVotes(id: string) {
   }
 }
 
-
 export async function fetchAnswers(questionId: string) {
   try {
     const data = await sql<Answer>`
-      SELECT * FROM answers 
+      SELECT * FROM answers
       WHERE question_id = ${questionId}
       ORDER BY is_accepted DESC, created_at DESC
     `;
@@ -96,7 +106,7 @@ export async function fetchAnswers(questionId: string) {
 export async function insertAnswer(answer: Pick<Answer, "text" | "question_id">) {
   try {
     await sql`
-      INSERT INTO answers (text, question_id) 
+      INSERT INTO answers (text, question_id)
       VALUES (${answer.text}, ${answer.question_id})
     `;
   } catch (error) {
@@ -107,8 +117,8 @@ export async function insertAnswer(answer: Pick<Answer, "text" | "question_id">)
 export async function markAnswerAsAccepted(answerId: string) {
   try {
     await sql`
-      UPDATE answers 
-      SET is_accepted = TRUE 
+      UPDATE answers
+      SET is_accepted = TRUE
       WHERE id = ${answerId}
     `;
   } catch (error) {
