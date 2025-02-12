@@ -2,11 +2,18 @@ import { addQuestion } from "@/lib/actions";
 
 export function AskQuestion({ topic }: { topic: string }) {
   return (
-    <form className="relative my-8" action={addQuestion}>
+    <form className="relative" action={addQuestion}>
       <input type="hidden" name="topic_id" value={topic} />
-      <input type="text"name="title" className="w-full border border-gray-300 rounded-md p-2 text-sm min-h-[22px] pr-20 focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="Ask a question..."
-        required/>
-      <button className="absolute right-2 top-0 flex h-11 w-24 items-center justify-center rounded-md border bg-secondary px-4 text-lg text-white focus:bg-secondary">
+      <input 
+        type="text" 
+        name="title" 
+        className="w-full border border-gray-300 rounded-md p-4 text-sm min-h-[100px] pr-28 focus:outline-none focus:ring-1 focus:ring-blue-500" 
+        placeholder="Ask a question..."
+        required
+      />
+      <button 
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-secondary text-white rounded-md px-6 py-2 text-sm hover:opacity-90"
+      >
         Ask
       </button>
     </form>
