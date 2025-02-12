@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { signIn } from "@/auth";
 import placeholder from "@/assets/placeholder.svg";
-import { FaGithub } from "react-icons/fa";
 
 export default function Page() {
   return (
@@ -16,36 +15,22 @@ export default function Page() {
               Discover our suite of tools and services to build, deploy, and
               scale your web applications with ease.
             </p>
-            <div className="space-y-4">
+            <div className="flex flex-col gap-2 min-[400px]:flex-row">
               <form
-                action={async () => {
-                  "use server";
-                  await signIn("github", { redirectTo: "/ui" });
-                }}
-              >
-                <button 
-                  type="submit"
-                  className="inline-flex items-center gap-2 h-10 px-8 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors"
-                >
-                  <FaGithub className="w-5 h-5" />
-                  Sign in with GitHub
+  action={async () => {
+    "use server";
+    await signIn("default", { redirectTo: "/ui" });
+  }} >
+                <button className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
+                  <div>Sign In</div>
                 </button>
               </form>
-
-              {/* Optional: Keep existing credentials sign-in or add more providers */}
-              <details className="text-sm text-gray-600">
-                <summary>Other sign-in methods</summary>
-                <form
-                  action={async () => {
-                    "use server";
-                    await signIn("default", { redirectTo: "/ui" });
-                  }} 
-                >
-                  <button className="mt-2 inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors">
-                    Sign In with Credentials
-                  </button>
-                </form>
-              </details>
+              <a
+                href="/about"
+                className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+              >
+                Learn More
+              </a>
             </div>
           </div>
           <Image
