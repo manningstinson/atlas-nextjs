@@ -1,12 +1,12 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { fetchAnswers } from '@/lib/data';
 
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  context: { params: { id: string } }
 ) {
   try {
-    const questionId = params.id;
+    const questionId = context.params.id;
     const answers = await fetchAnswers(questionId);
     
     // Map to ensure only specified fields are returned

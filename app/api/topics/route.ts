@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { fetchTopics } from '@/lib/data';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     const topics = await fetchTopics();
     
