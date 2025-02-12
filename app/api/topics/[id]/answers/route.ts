@@ -1,24 +1,22 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { fetchAnswers } from '@/lib/data';
 
 export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
+  request: Request, 
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const questionId = params.id;
-    const answers = await fetchAnswers(questionId);
+    const paramId = await params;
+    const answers = await fetchAnswers(paramId.id);
     
-    // Map to ensure only specified fields are returned
     const formattedAnswers = answers.map(answer => ({
       id: answer.id,
       answer: answer.answer,
       question_id: answer.question_id
     }));
 
-    return NextResponse.json(formattedAnswers, { status: 200 });
+    return Response.json({ data: formattedAnswers });
   } catch (error) {
-    return NextResponse.json(
+    return Response.json(
       { error: 'Failed to fetch answers' }, 
       { status: 500 }
     );
