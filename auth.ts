@@ -36,7 +36,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           id: user.id,
           email: user.email,
           name: email.split('@')[0],
-          image: process.env.NEXTAUTH_URL + "/placeholder.svg"
+          image: "/placeholder.svg"
         };
         return null;
       },

@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import Image from "next/image";
+import userAvatar from "@/public/placeholder.svg";
 
 export async function LoggedInUser() {
   const session = await auth();
@@ -8,7 +9,7 @@ export async function LoggedInUser() {
 
   return (
     <div className="flex items-center space-x-3 p-3">
-      {session.user.image ? (
+      {session.user.image.includes('github') ? (
         <Image
           src={session.user.image}
           alt={session.user.name || "User"}
@@ -19,7 +20,7 @@ export async function LoggedInUser() {
         />
       ) : (
         <Image
-          src="/placeholder.svg"
+          src={userAvatar}
           alt={session.user.name || "User"}
           width={40}
           height={40}
