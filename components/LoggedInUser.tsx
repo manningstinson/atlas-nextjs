@@ -9,7 +9,7 @@ export async function LoggedInUser() {
   return (
     <div className="flex items-center space-x-3 p-3">
       <Image
-        src={session.user.image || "/placeholder-avatar.svg"}
+        src={session.user.image || "/placeholder.svg"}
         alt={session.user.name || "User"}
         width={40}
         height={40}
