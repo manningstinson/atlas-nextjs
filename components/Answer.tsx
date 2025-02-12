@@ -18,14 +18,17 @@ export function Answer({ id, text, isAccepted, questionId }: AnswerProps) {
           <input type="hidden" name="question_id" value={questionId} />
           <button
             type="submit"
-            className="flex items-center justify-center h-6 w-6 rounded-full border-2 border-gray-400"
+            className="flex items-center justify-center h-7 w-7 rounded-full border border-[#1e1e3f]"
           >
-            <Check className="h-4 w-4 text-gray-400" strokeWidth={2.5} />
+            <Check className="h-4 w-4 text-[#1e1e3f]" strokeWidth={1.5} />
           </button>
         </form>
       ) : (
-        <div className="flex items-center justify-center h-6 w-6 rounded-full bg-[#1ED2AF]">
-          <Check className="h-4 w-4 text-white" strokeWidth={2.5} />
+        <div className="relative h-7 w-7">
+          <div className="absolute inset-0 flex items-center justify-center rounded-full bg-[#1ED2AF]">
+            <Check className="h-4 w-4 text-white" strokeWidth={1.5} />
+          </div>
+          <div className="absolute inset-0 rounded-full border border-[#1ED2AF]" />
         </div>
       )}
     </div>
