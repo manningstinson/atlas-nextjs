@@ -18,7 +18,6 @@ export default async function QuestionPage({
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">{question.title}</h1>
-      
       <form action={addAnswer} className="space-y-4">
         <input type="hidden" name="question_id" value={(await params).id} />
         <textarea
@@ -34,7 +33,6 @@ export default async function QuestionPage({
           Submit Answer
         </button>
       </form>
-
       <div className="space-y-4">
         {answers.map((answer) => (
           <Answer
