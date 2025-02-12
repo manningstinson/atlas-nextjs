@@ -3,10 +3,10 @@ import { fetchQuestions } from '@/lib/data';
 
 export async function GET(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const topicId = context.params.id;
+    const topicId = params.id;
     const questions = await fetchQuestions(topicId);
     
     // Map to ensure only specified fields are returned
