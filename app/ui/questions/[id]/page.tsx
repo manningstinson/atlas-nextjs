@@ -1,3 +1,4 @@
+import { HashtagIcon } from "@heroicons/react/24/outline";
 import { fetchAnswers, fetchQuestions } from "@/lib/data";
 import { Answer } from "@/components/Answer";
 import { addAnswer } from "@/lib/actions";
@@ -16,9 +17,11 @@ export default async function QuestionPage({
   }
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">{question.title}</h1>
-      <form action={addAnswer} className="space-y-4">
+    <div>
+      <h1 className="text-3xl font-black flex items-center">
+        <HashtagIcon className="h-6 w-6 mr-2" /> {question.title}
+      </h1>
+      <form action={addAnswer} className="mt-6 space-y-4">
         <input type="hidden" name="question_id" value={(await params).id} />
         <textarea
           name="text"
@@ -33,7 +36,7 @@ export default async function QuestionPage({
           Submit Answer
         </button>
       </form>
-      <div className="space-y-4">
+      <div className="mt-6 space-y-4">
         {answers.map((answer) => (
           <Answer
             key={answer.id}
