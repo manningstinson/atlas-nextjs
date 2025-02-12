@@ -35,7 +35,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (passwordsMatch) return {
           id: user.id,
           email: user.email,
-          image: "/assets/placeholder.svg"  // Add this line
+          name: email.split('@')[0],
+          image: "./assets/placeholder.svg"
         };
         return null;
       },
@@ -69,6 +70,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         token.sub = user.id;
         token.picture = user.image;
+        token.name = user.name;
         console.log("JWT AFTER UPDATE - Token picture:", token.picture);
       }
       
