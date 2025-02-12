@@ -17,7 +17,7 @@ export function AnswerForm({ questionId }: AnswerFormProps) {
       />
       <button
         type="submit"
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-secondary text-white rounded-md px-6 py-2 text-sm hover:opacity-90"
+        className="absolute right-4 translate-y-1/2 bg-secondary text-white rounded-md px-6 py-2 text-sm hover:opacity-90"
       >
         Answer
       </button>

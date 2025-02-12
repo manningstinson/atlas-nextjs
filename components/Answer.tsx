@@ -24,11 +24,8 @@ export function Answer({ id, text, isAccepted, questionId }: AnswerProps) {
           </button>
         </form>
       ) : (
-        <div className="relative h-7 w-7">
-          <div className="absolute inset-0 flex items-center justify-center rounded-full bg-[#1ED2AF]">
-            <Check className="h-4 w-4 text-white" strokeWidth={1.5} />
-          </div>
-          <div className="absolute inset-0 rounded-full border border-[#1ED2AF]" />
+        <div className="flex items-center justify-center h-7 w-7 rounded-full bg-[#1ED2AF] border-2 border-white ring-1 ring-[#1ED2AF]">
+          <Check className="h-4 w-4 text-white" strokeWidth={1.5} />
         </div>
       )}
     </div>
