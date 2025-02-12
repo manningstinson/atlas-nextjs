@@ -1,29 +1,26 @@
-import { Answer } from "@/components/Answer";
+import { fetchAnswers, fetchQuestions } from "@/lib/data";
+import { QuestionHeader } from "@/components/QuestionHeader";
+import { AnswerForm } from "@/components/AnswerForm";
+import { AnswersList } from "@/components/AnswersList";
 
-type AnswersListProps = {
-  answers: Array<{
-    id: string;
-    text: string;
-    is_accepted: boolean;
-  }>;
-};
+export default async function QuestionPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const questions = await fetchQuestions((await params).id);
+  const question = questions[0];
+  const answers = await fetchAnswers((await params).id);
 
-export function AnswersList({ answers }: AnswersListProps) {
-  // Sort answers with accepted answer first
-  const sortedAnswers = [...answers].sort((a, b) => 
-    b.is_accepted ? 1 : a.is_accepted ? -1 : 0
-  );
+  if (!question) {
+    return <div>Question not found</div>;
+  }
 
   return (
-    <div className="space-y-4">
-      {sortedAnswers.map((answer) => (
-        <Answer
-          key={answer.id}
-          id={answer.id}
-          text={answer.text}
-          isAccepted={answer.is_accepted}
-        />
-      ))}
+    <div className="space-y-6">
+      <QuestionHeader title={question.title} />
+      <AnswerForm questionId={(await params).id} />
+      <AnswersList answers={answers} />
     </div>
   );
 }
